@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import logo from '../assets/BeBrightLogo.png';
+import logo from '../assets/BeBright-Logo.png';
 
 function Copyright(props) {
   return (
@@ -50,10 +50,8 @@ export default function SignIn() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <logo />
-          </Avatar>
-          <Typography component="h1" variant="h5">
+          <img src={logo} alt="BeBright logo" width="120" height="120" />
+          <Typography component="h1" variant="h4">
             Sign in
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -96,7 +94,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
