@@ -1,4 +1,3 @@
-import logo from '../src/assets/BeBright-Logo.png';
 import './App.css';
 import { Route, Link, Routes, Navigate } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
@@ -22,9 +21,9 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Timeline />} />
+          <Route exact path="/" element={<LoginPage />} />
           <Route exact path="/profile" element={<ProfilePage />} />
-          <Route exact path="/login" element={<LoginPage />} />
+          <Route exact path="/timeline" element={<Timeline />} />
           <Route exact path="/signup" element={<SignUpPage />} />
         </Routes>
       </BrowserRouter>
