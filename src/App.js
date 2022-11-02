@@ -7,7 +7,17 @@ import ProfilePage from './components/ProfilePage';
 import LoginPage from './components/LoginPage';
 import SignUpPage from './components/SignUpPage';
 
+import myDataProvider from './dataProvider';
+import authProvider from './authProvider';
+
+const dataProvider = myDataProvider('http://localhost:8086/api');
+
 function App() {
+
+  <Admin authProvider={authProvider} dataProvider={dataProvider}>
+        <Resource name="users" {...usersConfiguration} />
+  </Admin>
+
   return (
     <div className="App">
       <BrowserRouter>
