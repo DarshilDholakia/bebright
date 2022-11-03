@@ -6,25 +6,16 @@ import ProfilePage from './components/ProfilePage';
 import LoginPage from './components/LoginPage';
 import SignUpPage from './components/SignUpPage';
 
-import myDataProvider from './dataProvider';
-import authProvider from './authProvider';
-
-const dataProvider = myDataProvider('http://localhost:8086/api');
-
 function App() {
-
-  <Admin authProvider={authProvider} dataProvider={dataProvider}>
-        <Resource name="users" {...usersConfiguration} />
-  </Admin>
 
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<LoginPage />} />
-          <Route exact path="/profile" element={<ProfilePage />} />
-          <Route exact path="/timeline" element={<Timeline />} />
           <Route exact path="/signup" element={<SignUpPage />} />
+          <Route exact path="/timeline" element={<Timeline />} />
+          <Route exact path="/profile" element={<ProfilePage />} />
         </Routes>
       </BrowserRouter>
     </div>
