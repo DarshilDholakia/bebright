@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useState } from 'react';
+import MultipleValueTextInput from 'react-multivalue-text-input';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -8,8 +10,16 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+<<<<<<< HEAD
 import logo from '../assets/BeBright-Logo.png';
+=======
+
+import authService from '../services/auth.service';
+import UploadImage from './UploadImage';
+>>>>>>> jwt
 
 function Copyright(props) {
   return (
@@ -27,14 +37,33 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+
+  const [officeList, setOfficeList] = useState([])
+  const [teamList, setTeamList] = useState([])
+
+  const [alert, setAlert] = useState(false)
+
+  let uploadImage = new UploadImage();
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(uploadImage.state.image);
+
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+
+    authService.register(data.get('username'), data.get('email'), data.get('password'), uploadImage.state.image, officeList, teamList, ['USER'])
+      .then((response) => {
+
+        if (response) {
+          console.log(alert);
+          setAlert(true);
+          console.log(alert);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -52,6 +81,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h4">
             Sign Up
           </Typography>
+<<<<<<< HEAD
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
@@ -121,6 +151,106 @@ export default function SignUp() {
               name="interests"
               autoFocus
               />
+=======
+          <Box
+          // sx={{backgroundColor: 'primary.dark',}}
+          >
+            <UploadImage />
+          </Box>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete="given-name"
+                  name="username"
+                  required
+                  fullWidth
+                  id="username"
+                  label="Username"
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="confirmPassword"
+                  label="Confirm Password"
+                  name="confirmPassword"
+                  type="password"
+                  autoComplete="new-password"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                {/* <TextField
+                  required
+                  fullWidth
+                  id="offices"
+                  label="Offices"
+                  name="offices"
+                  autoComplete="family-name"
+                /> */}
+                <MultipleValueTextInput
+                  onItemAdded={(item, allItems) => {
+                    console.log(`Offices added: ${allItems}`)
+                    setOfficeList(allItems)
+                  }}
+
+                  onItemDeleted={(item, allItems) => {
+                    console.log(`Offices removed: ${allItems}`)
+                    setOfficeList(allItems)
+                  }}
+                  name="offices-input"
+                  placeholder="Offices"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                {/* <TextField
+                  required
+                  fullWidth
+                  id="teams"
+                  label="Teams"
+                  name="teams"
+                  autoComplete="family-name"
+                /> */}
+                <MultipleValueTextInput
+                  onItemAdded={(item, allItems) => {
+                    console.log(`Teams added: ${allItems}`)
+                    setTeamList(allItems)
+                  }}
+
+                  onItemDeleted={(item, allItems) => {
+                    console.log(`Teams removed: ${allItems}`)
+                    setTeamList(allItems)
+                  }}
+                  name="teams-input"
+                  placeholder="Teams"
+                />
+              </Grid>
+            </Grid>
+>>>>>>> jwt
             <Button
               type="submit"
               fullWidth
@@ -129,6 +259,9 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
+
+            {alert ? <Alert severity="success"><AlertTitle>Success</AlertTitle>You have registered <strong>successfully!</strong></Alert> : <></>}
+
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/" variant="body2">
