@@ -11,13 +11,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-<<<<<<< HEAD
 import logo from '../assets/BeBright-Logo.png';
-=======
 import authService from '../services/auth.service';
-
 import { useNavigate } from "react-router-dom";
->>>>>>> jwt
 
 function Copyright(props) {
   return (
