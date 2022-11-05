@@ -39,11 +39,15 @@ export default function SignUp() {
 
   const [alert, setAlert] = useState(false)
 
+  let uploadImage = new UploadImage();
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(uploadImage.state.image);
+
     const data = new FormData(event.currentTarget);
 
-    authService.register(data.get('username'), data.get('email'), data.get('password'), data.get('profilepic'), officeList, teamList, ['USER'])
+    authService.register(data.get('username'), data.get('email'), data.get('password'), uploadImage.state.image, officeList, teamList, ['USER'])
       .then((response) => {
 
         if (response) {
@@ -75,9 +79,9 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box sx={{
-            // backgroundColor: 'primary.dark',
-          }}>
+          <Box
+          // sx={{backgroundColor: 'primary.dark',}}
+          >
             <UploadImage />
           </Box>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
@@ -125,17 +129,6 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
-              {/* <Grid item xs={12}>
-                <TextField
-                  autoComplete="given-name"
-                  name="profilepic"
-                  required
-                  fullWidth
-                  id="profilepic"
-                  label="Profile Picture"
-                  autoFocus
-                />
-              </Grid> */}
 
               <Grid item xs={12} sm={6}>
                 {/* <TextField

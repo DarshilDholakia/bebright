@@ -22,6 +22,7 @@ class UploadImage extends React.Component {
     }
     handleNewImage = (e) => {
         this.setState({ image: e.target.files[0] });
+        
     };
     handleScale = (e) => {
         const scale = parseFloat(e.target.value);
@@ -41,7 +42,7 @@ class UploadImage extends React.Component {
     }
     render() {
         return (
-            <div>
+            <div className="upload-image-div">
                 <div>
                     <ReactAvatarEditor
                         ref={this.setEditorRef}
@@ -53,7 +54,7 @@ class UploadImage extends React.Component {
                         rotate={parseFloat(this.state.rotate)}
                         borderRadius={this.state.width / (100 / this.state.borderRadius)}
                         image={this.state.image}
-                        color={[255, 255, 255, 0.6]}
+                        color={[189, 195, 199, 0.6]}
                         className="editor-canvas"
                     />
                 </div>

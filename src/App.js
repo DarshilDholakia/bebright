@@ -1,4 +1,5 @@
 import './App.css';
+import './css/SignUpPage.css';
 import { Route, Link, Routes, Navigate } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 import Timeline from './components/Timeline';
