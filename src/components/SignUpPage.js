@@ -15,6 +15,7 @@ import AlertTitle from '@mui/material/AlertTitle';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import authService from '../services/auth.service';
+import UploadImage from './UploadImage';
 
 function Copyright(props) {
   return (
@@ -74,6 +75,11 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
+          <Box sx={{
+            // backgroundColor: 'primary.dark',
+          }}>
+            <UploadImage />
+          </Box>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -119,7 +125,7 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
                   name="profilepic"
@@ -129,7 +135,7 @@ export default function SignUp() {
                   label="Profile Picture"
                   autoFocus
                 />
-              </Grid>
+              </Grid> */}
 
               <Grid item xs={12} sm={6}>
                 {/* <TextField
