@@ -17,6 +17,7 @@
     "react-avatar-editor": "^13.0.0",
     "react-bootstrap": "^2.5.0",
     "react-dom": "^18.2.0",
+    "react-hooks-global-state": "^2.0.0",
     "react-multivalue-text-input": "^1.0.0",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",

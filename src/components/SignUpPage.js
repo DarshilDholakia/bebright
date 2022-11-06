@@ -16,6 +16,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import logo from '../assets/BeBright-Logo.png';
 import authService from '../services/auth.service';
 import UploadImage from './UploadImage';
+import ReactAvatarEditor from "react-avatar-editor";
+
 
 function Copyright(props) {
   return (
@@ -39,15 +41,12 @@ export default function SignUp() {
 
   const [alert, setAlert] = useState(false)
 
-  let uploadImage = new UploadImage();
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(uploadImage.state.image);
 
     const data = new FormData(event.currentTarget);
 
-    authService.register(data.get('username'), data.get('email'), data.get('password'), uploadImage.state.image, officeList, teamList, ['USER'])
+    authService.register(data.get('username'), data.get('email'), data.get('password'), 'placeholder', officeList, teamList, ['USER'])
       .then((response) => {
 
         if (response) {
@@ -77,9 +76,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h4">
             Sign Up
           </Typography>
-          <Box
-          // sx={{backgroundColor: 'primary.dark',}}
-          >
+          <Box>
             <UploadImage />
           </Box>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
