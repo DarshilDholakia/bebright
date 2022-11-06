@@ -78,7 +78,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h4">
             Sign Up
           </Typography>
-
+          
           <Box
           // sx={{backgroundColor: 'primary.dark',}}
           >
@@ -177,7 +177,7 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-            
+
             <Button
               type="submit"
               fullWidth
