@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import "../Timeline.css";
-import InputOption from '../InputOption'
-import Post from '../Post'
+import "./Timeline.css";
+import InputOption from './InputOption'
+import Post from './Post'
 import CreateIcon from "@material-ui/icons/Create";
 import ImageIcon from '@material-ui/icons/Image';
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions';

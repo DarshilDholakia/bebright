@@ -13,8 +13,12 @@ import Container from '@mui/material/Container';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import logo from '../assets/BeBright-Logo.png';
 import authService from '../services/auth.service';
 import UploadImage from './UploadImage';
+import ReactAvatarEditor from "react-avatar-editor";
+import postService from '../services/interest.service';
+
 
 function Copyright(props) {
   return (
@@ -35,29 +39,38 @@ export default function SignUp() {
 
   const [officeList, setOfficeList] = useState([])
   const [teamList, setTeamList] = useState([])
+  const [interestList, setInterestList] = useState([])
 
   const [alert, setAlert] = useState(false)
 
-  let uploadImage = new UploadImage();
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(uploadImage.state.image);
 
     const data = new FormData(event.currentTarget);
 
-    authService.register(data.get('username'), data.get('email'), data.get('password'), uploadImage.state.image, officeList, teamList, ['USER'])
+    authService.register(data.get('username'), data.get('email'), data.get('password'), 'placeholder', officeList, teamList, ['USER'])
       .then((response) => {
+        console.log(response)
+
+        authService.login(data.get('username'), data.get('password')).then((response) => {
+          console.log(response);
+          if (response) {
+            
+            postService.addInterests(interestList).then((response) => {
+              console.log(response);
+            }).catch(err => console.log(err))
+
+          }
+        }).catch(err => console.log(err))
 
         if (response) {
-          console.log(alert);
           setAlert(true);
-          console.log(alert);
         }
       })
       .catch(err => {
         console.log(err);
       });
+
   }
 
   return (
@@ -76,9 +89,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h4">
             Sign Up
           </Typography>
-          <Box
-          // sx={{backgroundColor: 'primary.dark',}}
-          >
+          <Box>
             <UploadImage />
           </Box>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
@@ -128,14 +139,6 @@ export default function SignUp() {
               </Grid>
 
               <Grid item xs={12} sm={6}>
-                {/* <TextField
-                  required
-                  fullWidth
-                  id="offices"
-                  label="Offices"
-                  name="offices"
-                  autoComplete="family-name"
-                /> */}
                 <MultipleValueTextInput
                   onItemAdded={(item, allItems) => {
                     console.log(`Offices added: ${allItems}`)
@@ -151,14 +154,6 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                {/* <TextField
-                  required
-                  fullWidth
-                  id="teams"
-                  label="Teams"
-                  name="teams"
-                  autoComplete="family-name"
-                /> */}
                 <MultipleValueTextInput
                   onItemAdded={(item, allItems) => {
                     console.log(`Teams added: ${allItems}`)
@@ -171,6 +166,22 @@ export default function SignUp() {
                   }}
                   name="teams-input"
                   placeholder="Teams"
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <MultipleValueTextInput
+                  onItemAdded={(item, allItems) => {
+                    console.log(`Interests added: ${allItems}`)
+                    setInterestList(allItems)
+                  }}
+
+                  onItemDeleted={(item, allItems) => {
+                    console.log(`Interests removed: ${allItems}`)
+                    setInterestList(allItems)
+                  }}
+                  name="interests-input"
+                  placeholder="Interests"
                 />
               </Grid>
             </Grid>
