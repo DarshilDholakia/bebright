@@ -13,12 +13,13 @@ import Container from '@mui/material/Container';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+<<<<<<< HEAD
 import logo from '../assets/BeBright-Logo.png';
+=======
+
 import authService from '../services/auth.service';
 import UploadImage from './UploadImage';
-import ReactAvatarEditor from "react-avatar-editor";
-import postService from '../services/interest.service';
-
+>>>>>>> jwt
 
 function Copyright(props) {
   return (
@@ -89,7 +90,80 @@ export default function SignUp() {
           <Typography component="h1" variant="h4">
             Sign Up
           </Typography>
-          <Box>
+<<<<<<< HEAD
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="userName"
+              label="User Name"
+              name="userName"
+              autoComplete="username"
+              autoFocus
+                />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="confirmPassword"
+              label="Confirm Password"
+              type="password"
+              id="confirmPassword"
+              autoComplete="current-password"
+              />
+
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="offices"
+              label="Offices"
+              name="offices"
+              autoFocus
+              />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="teams"
+              label="Teams"
+              name="teams"
+              autoFocus
+              />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="interests"
+              label="Interests (max 5)"
+              name="interests"
+              autoFocus
+              />
+=======
+          <Box
+          // sx={{backgroundColor: 'primary.dark',}}
+          >
             <UploadImage />
           </Box>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
@@ -185,6 +259,7 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
+>>>>>>> jwt
             <Button
               type="submit"
               fullWidth
