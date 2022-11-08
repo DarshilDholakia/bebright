@@ -8,11 +8,14 @@ import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay';
 import FlipMove from "react-flip-move";
+import axios from 'axios'; 
+import postService from '../../services/post.service';
 
 export default function Timeline() {
     const user = useSelector(selectUser)
     const [input, setInput] = useState('');
     const [posts, setPosts] = useState([]);
+    
 
     useEffect(() => {
         db.collection("posts")
@@ -26,17 +29,59 @@ export default function Timeline() {
             );
     }, []);
 
-    // const sendPost = e => {
-    //     e.preventDefault();
+    useEffect(async () => {
+        const results = await 
+            postService.getPostsByMultipleOffices().then()
+    
+        setPosts(results.posts)
+    }, []);
 
-    //     db.collection('posts').add({
-    //         name: user.displayName,
-    //         description: user.email,
-    //         message: input,
-    //         photoUrl: user.photoUrl || "",
-    //     });
-    //     setInput("");
-    // };
+    useEffect(async () => {
+        const results = await 
+            postService.getPostsByOffice().then()
+    
+        setPosts(results.posts)
+    }, []);
+
+    useEffect(async () => {
+        const results = await 
+            postService.getPostsByOfficeAndTeam().then()
+    
+        setPosts(results.posts)
+    }, []);
+
+    useEffect(async () => {
+        const results = await 
+            postService.checkIfPostBelongsToCurrentUser().then()
+    
+        setPosts(results.posts)
+    }, []);
+
+    /*
+    in the backend checks if the posts belong to the user - its a boolean
+    so we need to call this end point - top right of a posts that is yours 
+    - you can see the pencil edit sign - so that you can edit your own posts yourself - if its true its only for the posts that belongs to you
+    false - if it belongs to someone else 
+
+    if true - then posts belong to user - allow to edit 
+    if false - then posts belong to user - don't allow edit 
+    return all posts in list 
+    */
+
+
+    // useEffect(async () => {
+    //     const results = await 
+    //         postService.getPostsByUser().then()
+    
+    //     setPosts(results.posts)
+    // }, []);
+    
+
+    // useEffect(() => {
+        
+
+    // }, []);
+
 
     return (
         <div className="timeline">
