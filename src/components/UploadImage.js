@@ -1,8 +1,6 @@
 import React from "react";
 import ReactAvatarEditor from "react-avatar-editor";
-
-import Button from '@mui/material/Button';
-
+import { Button } from "@mui/material";
 
 class UploadImage extends React.Component {
     constructor(props) {
@@ -20,9 +18,13 @@ class UploadImage extends React.Component {
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    // componentDidMount() {
+    //     this.handleSubmit = this.handleSubmit.bind(this);
+    // }
+
     handleNewImage = (e) => {
         this.setState({ image: e.target.files[0] });
-        
     };
     handleScale = (e) => {
         const scale = parseFloat(e.target.value);
@@ -34,15 +36,17 @@ class UploadImage extends React.Component {
     setEditorRef = (editor) => (this.editor = editor);
 
     async handleSubmit(e) {
+        console.log(`editor: ${this.editor}`)
         if (this.editor) {
             // This returns a HTMLCanvasElement, it can be made into a data URL or a blob,
             // drawn on another canvas, or added to the DOM.
             const img = this.editor.getImageScaledToCanvas().toDataURL();
         }
     }
+
     render() {
         return (
-            <div className="upload-image-div">
+            <div>
                 <div>
                     <ReactAvatarEditor
                         ref={this.setEditorRef}
@@ -54,7 +58,7 @@ class UploadImage extends React.Component {
                         rotate={parseFloat(this.state.rotate)}
                         borderRadius={this.state.width / (100 / this.state.borderRadius)}
                         image={this.state.image}
-                        color={[189, 195, 199, 0.6]}
+                        color={[255, 255, 255, 0.6]}
                         className="editor-canvas"
                     />
                 </div>
@@ -77,6 +81,16 @@ class UploadImage extends React.Component {
                     step="0.01"
                     defaultValue="1"
                 />
+                <div>
+                    <Button
+                        type="submit"
+                        variant="outlined"
+                        sx={{ mt: 3, mb: 2 }}
+                        onClick={this.handleSubmit}
+                    >
+                        Confirm
+                    </Button>
+                </div>
             </div>
         )
     }
