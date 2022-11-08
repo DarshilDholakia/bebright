@@ -9,6 +9,10 @@ import image3 from '../assets/image3.jpg'
 const ProfilePage = () => {
     return (
         <>
+        <div className='interest-container'>
+            <p>Interest Container</p>
+        </div>
+
         <div className='sidebar-carousel-container'>
             <div className="sidebar">
                 <div className="sidebar__top">
