@@ -2,10 +2,14 @@ import { Avatar } from '@material-ui/core';
 import React from 'react';
 import '../css/ProfilePage.css';
 import Carousel from 'react-bootstrap/Carousel';
+import image1 from '../assets/image1.jpg'
+import image2 from '../assets/image2.jpg'
+import image3 from '../assets/image3.jpg'
 
 const ProfilePage = () => {
     return (
         <>
+        <div className='sidebar-carousel-container'>
             <div className="sidebar">
                 <div className="sidebar__top">
                     {/* <Avatar src={user.photoUrl} className="sidebar__avatar"> 
@@ -27,39 +31,40 @@ const ProfilePage = () => {
                 </div>
             </div>
 
-            <div className="carousel">
-            <Carousel variant="dark">
+            {/* <div className="carousel"> */}
+            <Carousel variant="dark" className='carousel'>
                 <Carousel.Item>
                     <img
-                        className="d-block w-100"
-                        src="holder.js/800x400?text=First slide&bg=f5f5f5"
+                        className="carousel-img d-block w-100"
+                        src={image1}
                         alt="First slide"
                     />
-                    <Carousel.Caption>
+                    {/* <Carousel.Caption>
                         <h5>First slide label</h5>
-                    </Carousel.Caption>
+                    </Carousel.Caption> */}
                 </Carousel.Item>
                 <Carousel.Item>
                     <img
-                        className="d-block w-100"
-                        src="holder.js/800x400?text=Second slide&bg=eee"
+                        className="carousel-img d-block w-100"
+                        src={image2}
                         alt="Second slide"
                     />
-                    <Carousel.Caption>
+                    {/* <Carousel.Caption>
                         <h5>Second slide label</h5>
-                    </Carousel.Caption>
+                    </Carousel.Caption> */}
                 </Carousel.Item>
                 <Carousel.Item>
                     <img
-                        className="d-block w-100"
-                        src="holder.js/800x400?text=Third slide&bg=e5e5e5"
+                        className="carousel-img d-block w-100"
+                        src={image3}
                         alt="Third slide"
                     />
-                    <Carousel.Caption>
+                    {/* <Carousel.Caption>
                         <h5>Third slide label</h5>
-                    </Carousel.Caption>
+                    </Carousel.Caption> */}
                 </Carousel.Item>
             </Carousel>
+            {/* </div> */}
             </div>
         </>
     )
