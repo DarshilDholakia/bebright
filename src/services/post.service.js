@@ -67,7 +67,7 @@ const getPostsByOffice = () => {
 };
 
 const getPostsByMultipleOffices = () => {
-
+    
     return axios
         .get(API_URL + "/posts/offices", null, { headers: authHeader() })
         .then((response) => {return response.data})
