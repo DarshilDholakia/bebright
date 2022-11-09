@@ -43,12 +43,18 @@ export default function SignUp() {
 
   const [alert, setAlert] = useState(false)
 
+  const [userImage, setUserImage] = useState('')
+
+  const handleNewUserImage = (imageDownloadUrl) => {
+    setUserImage(imageDownloadUrl);
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
 
-    authService.register(data.get('username'), data.get('email'), data.get('password'), 'placeholder', officeList, teamList, ['USER'])
+    authService.register(data.get('username'), data.get('email'), data.get('password'), userImage, officeList, teamList, ['USER'])
       .then((response) => {
         console.log(response)
 
@@ -90,7 +96,7 @@ export default function SignUp() {
             Sign Up
           </Typography>
           <Box>
-            <UploadImage />
+            <UploadImage handleNewUserImage={handleNewUserImage}/>
           </Box>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
