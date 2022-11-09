@@ -3,6 +3,7 @@ import ReactAvatarEditor from "react-avatar-editor";
 import { Button } from "@mui/material";
 import storage from "../firebaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import LinearProgress from "@mui/material/LinearProgress";
 
 class UploadImage extends React.Component {
     constructor(props) {
@@ -88,7 +89,8 @@ class UploadImage extends React.Component {
                     >
                         Confirm
                     </Button>
-                    <p>{this.state.percent} % done</p>
+                    {/* <p>{this.state.percent} % done</p> */}
+                    <LinearProgress />
                 </div>
             </div>
         )
