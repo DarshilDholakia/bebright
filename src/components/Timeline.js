@@ -1,11 +1,19 @@
 import image1 from "../assets/stock.jpg"
 import { Avatar } from "@mui/material";
+import { useEffect, useState } from "react";
 
 const Timeline = () => {
+
+    const [profilePicURL, setProfilePicURL] = useState('');
+
+    useEffect(() => {
+        setProfilePicURL(JSON.parse(localStorage.getItem('user_object')).profilePicURL)
+    }, [])
+
     return (
         <>
             <h1>Timeline</h1>
-            <Avatar src="https://firebasestorage.googleapis.com/v0/b/bebright-db859.appspot.com/o/files%2Fstock.jpg?alt=media&token=b1668e55-db39-49c3-83ef-ecfe41594cca" />
+            <Avatar src={profilePicURL} />
         </>
 
     )

@@ -1,27 +1,75 @@
-.interest-container {
+/* .interest-container {
   background-color: gray;
-}
+} */
 
-.sidebar-carousel-container {
+/* .sidebar-carousel-interest-container {
   margin-top: 5%;
   margin-right: 20%;
+  margin: auto;
+  flex-direction: column;
+  width: 60%;
+} */
 
-}
+/* .sidebar-carousel-container { */
+  /* background-color: aqua;
+  width: fit-content; */
+/* } */
 
-.sidebar {
+/* .sidebar {
   position: sticky;
-  /* top: 80px; */
-  flex: 0.2;
   border-radius: 10px;
   text-align: center;
-  height: fit-content;
-  width: 15%;
+  width: 25%;
   margin-left: auto;
   border: 1px solid lightgray;
-  /* margin-top: 5%;
-    margin-right: 20%; */
   padding: 20px;
   max-width: 100%;
+}
+
+.carousel {
+  width: 25%;
+  float: right;
+  padding-top: 2%;
+} */
+
+.container {  
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0% 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "interest-container interest-container sidebar-container"
+    "interest-container interest-container carousel-container";
+}
+
+.interest-container { 
+  grid-area: interest-container; 
+  overflow: auto;
+  height: 76%;
+  margin-top: 25%;
+  margin-right: 2%;
+}
+
+.fillers {
+  width: fit-content;
+  height: 30%;
+}
+
+.sidebar-container { 
+  grid-area: sidebar-container; 
+  width: 50%;
+  margin-top: 25%;
+}
+
+.carousel-container { 
+  grid-area: carousel-container; 
+  width: 50%;
+  margin-top: 10%;
+}
+
+.carousel-img {
+  border-radius: 3%;
 }
 
 .sidebar__avatar {
@@ -90,9 +138,8 @@
   margin-bottom: 10px;
   border: 1px solid lightgray;
   background-color: white;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  width: 80%;
+  border-radius: 10px;
+  width: 100%;
   margin: auto;
 }
 
@@ -111,12 +158,19 @@
   padding: 5px;
 }
 
-.carousel {
-  width: 15%;
-  float: right;
-  padding-top: 2%;
+/* ============== INTERESTBOX.JS STYLES ============= */
+
+.interest-avatar-container {
+  /* float: left; */
+  /* margin-left: 1%; */
+  
+  
 }
 
-.carousel-img {
-  border-radius: 3%;
+.individual-interest-container {
+  /* border: 1px solid black; */
+  /* border-radius: 10px; */
+  height: 19%;
+  width: 70%;
+  margin-left: 27%;
 }

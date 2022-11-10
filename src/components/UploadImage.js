@@ -90,7 +90,7 @@ class UploadImage extends React.Component {
                         Confirm
                     </Button>
                     {/* <p>{this.state.percent} % done</p> */}
-                    <LinearProgress />
+                    {(this.state.percent !== 0 && this.state.percent !== 100) && <LinearProgress variant="determinate" value={this.state.percent} />}
                 </div>
             </div>
         )
