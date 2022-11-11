@@ -4,7 +4,7 @@ import InputOptions from "./InputOptions.js"
 import Post from './Post'
 import CreateIcon from "@material-ui/icons/Create";
 import ImageIcon from '@material-ui/icons/Image';
-import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
+import { Subscriptions } from '@material-ui/icons';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import CalendarViewDayIcon from '@material-ui/icons/CalendarViewDay';
 import FlipMove from "react-flip-move";
@@ -16,15 +16,15 @@ export default function Timeline() {
     const [posts, setPosts] = useState([]);
     
     useEffect(async () => {
-        await postService.getPostsByMultipleOffices().then((response) => setPosts(response))
+        await postService.getPostsByMultipleOffices().then((response) => setPosts(response.data))
     }, []);
 
     useEffect(async () => {
-        await postService.getPostsByOfficeAndTeam().then((response) => setPosts(response))
+        await postService.getPostsByOfficeAndTeam().then((response) => setPosts(response.data))
     }, []);
 
     useEffect(async () => {
-        await postService.getPostsByOffice().then((response) => setPosts(response))
+        await postService.getPostsByOffice().then((response) => setPosts(response.data))
     }, []); 
 
     return (
@@ -46,13 +46,13 @@ export default function Timeline() {
 
             {/* Posts */}
             <FlipMove>
-                {posts.map(({ id, data: { name, description, message, photoUrl } }) => (
+                {posts.map(( post ) => (
                     <Post
-                        key={id}
-                        name={name}
-                        description={description}
-                        message={message}
-                        photoUrl={photoUrl}
+                        key={post.postId}
+                        name={post.username}
+                        description={post.description}
+                        message={post.comments}
+                        photoUrl={post.imageURL}
                     />
                 ))}
             </FlipMove>
