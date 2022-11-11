@@ -45,6 +45,9 @@ export default function SignIn() {
     try {
       await authService.login(data.get('username'), data.get('password')).then(
         () => {
+          // console.log(authenticated)
+          // setAuthenticated(true)
+          // console.log(authenticated)
           navigate("/timeline");
           window.location.reload();
         },

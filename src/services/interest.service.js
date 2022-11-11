@@ -13,15 +13,15 @@ const getUsersInterests = () => {
     .catch((error) => {
         console.log("the error message is printed below:")
         console.error(error)
-        const tokens = JSON.parse(localStorage.getItem("user"))
-        console.log(tokens)
-        console.log(tokens.refresh_token)
-        authService.refreshToken(tokens.refresh_token)
-        .then((response) => {
-            if (response.data) {
-                localStorage.setItem("user", JSON.stringify(response.data)) 
-            }
-        })
+        // const tokens = JSON.parse(localStorage.getItem("user"))
+        // console.log(tokens)
+        // console.log(tokens.refresh_token)
+        // authService.refreshToken(tokens.refresh_token)
+        // .then((response) => {
+        //     if (response.data) {
+        //         localStorage.setItem("user", JSON.stringify(response.data)) 
+        //     }
+        // })
     })
 }
 
@@ -31,6 +31,9 @@ const addInterests = (interesList) => {
         .post(API_URL, interesList, { headers: authHeader() })
         .then((response) => {
             return response;
+        })
+        .catch((err) => {
+            console.log(err)
         })
 };
 

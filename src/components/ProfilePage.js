@@ -7,10 +7,12 @@ import image2 from '../assets/image2.jpg'
 import image3 from '../assets/image3.jpg'
 import InterestBox from './InterestBox';
 import interestService from '../services/interest.service';
+import userService from '../services/user.service';
 
 const ProfilePage = () => {
 
     const [interestList, setInterestList] = useState([]);
+    const [userListOfListsByInterest, setuserListOfListsByInterest] = useState([])
 
     useEffect(() => {
         interestService.getUsersInterests()
@@ -21,12 +23,29 @@ const ProfilePage = () => {
         // console.log(interestList)
     }, [localStorage.getItem("user")])
 
+    useEffect(() => {
+        interestList.map((interest) => {
+            userService.getUsersByOfficeAndInterest(interest)
+            .then((response) => {
+
+                userListOfListsByInterest.push(response.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        })
+    }, [interestList])
+
     return (
         <>
             <div class="container">
                 <div class="interest-container">
                     {interestList.map((interest) => {
-                        return <InterestBox key={interest} interest={interest}/>
+                        userListOfListsByInterest.map((individualListOfUsersByInterest) => {
+                            return <InterestBox key={interest} 
+                            individualListOfUsersByInterest={individualListOfUsersByInterest} 
+                            interest={interest}/>
+                        })
                     })}
                 </div>
                 <div class="sidebar-container">

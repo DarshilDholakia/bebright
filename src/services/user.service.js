@@ -20,31 +20,31 @@ const registerUser = (email, username, password, profilePicURL, offices, teams, 
         .catch((error) => console.error(error))
 };
 
-const deleteUser = () => {
+// const deleteUser = () => {
 
-    return axios
-        .delete(API_URL + `/users/${userId}`, null, { headers: authHeader() })
-        .then(() => console.log("Successfully deleted"));
-};
+//     return axios
+//         .delete(API_URL + `/users/${userId}`, null, { headers: authHeader() })
+//         .then(() => console.log("Successfully deleted"));
+// };
 
-const updateUser = (email, username, password, profilePicURL, offices, teams, roles) => {
+// const updateUser = (email, username, password, profilePicURL, offices, teams, roles) => {
 
-    return axios
-        .put(API_URL + `/users/${userId}`, {
-            email,
-            username,
-            password,
-            profilePicURL,
-            offices,
-            teams,
-            roles,
-        },
-        { headers: authHeader() })
-        .then((response) => {return response.data})
-        .catch((error) => console.error(error))
-};
+//     return axios
+//         .put(API_URL + `/users/${userId}`, {
+//             email,
+//             username,
+//             password,
+//             profilePicURL,
+//             offices,
+//             teams,
+//             roles,
+//         },
+//         { headers: authHeader() })
+//         .then((response) => {return response.data})
+//         .catch((error) => console.error(error))
+// };
 
-const getUsersByOfficeAndInterest = () => {
+const getUsersByOfficeAndInterest = (interestType) => {
 
     return axios
         .get(API_URL + `/users/getUsersByOfficeAndInterest/${interestType}`, null, { headers: authHeader() })
@@ -70,8 +70,8 @@ const getUsersTeams = () => {
 
 const userService = {
     registerUser,
-    deleteUser,
-    updateUser,
+    // deleteUser,
+    // updateUser,
     getUsersByOfficeAndInterest,
     getUsersOffices,
     getUsersTeams,
