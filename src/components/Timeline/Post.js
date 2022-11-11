@@ -8,11 +8,9 @@ import EditIcon from '@mui/icons-material/Edit';
 
 const Post =  forwardRef (({name,description, message, photoUrl}, ref) => {
     
+
     useEffect(async () => {
-        const results = await 
-            postService.checkIfPostBelongsToCurrentUser().then()
-    
-        setPosts(results.posts)
+        await postService.checkIfPostBelongsToCurrentUser().then((response) => setPosts(response))
     }, []);
 
     /*
@@ -26,6 +24,7 @@ const Post =  forwardRef (({name,description, message, photoUrl}, ref) => {
     return all posts in list 
 
     end point loops through all posts 
+    might need a map function to map through it
     */
 
     return (
@@ -45,6 +44,8 @@ const Post =  forwardRef (({name,description, message, photoUrl}, ref) => {
          <div className="post__buttons">
              <InputOption Icon = {ThumbUpIcon}  title ="Like" color ="gray"/>
              <InputOption Icon = {ChatOutlinedIcon}  title ="Comment" color ="gray"/>
+            
+                {/* need to make sure this only appears for own posts */}
              <InputOption Icon = {EditIcon}  title ="Edit" color ="gray"/>
          </div>   
         </div>
