@@ -1,16 +1,19 @@
-import InputOption from ./InputOption";
-import React, {forwardRef} from "react";
+import InputOption from "./InputOptions";
+import React, {forwardRef, useEffect, useState} from "react";
 import "./Post.css";
 import { Avatar } from '@material-ui/core'
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
-import EditIcon from '@mui/icons-material/Edit';
+import { Edit } from "@material-ui/icons";
+import InputOptions from "./InputOptions";
+import postService from "../../services/post.service";
 
-const Post =  forwardRef (({name,description, message, photoUrl}, ref) => {
-    
+const Post =  forwardRef (({ name, description, message, photoUrl, ref }) => {
+
+    const [postCheck, setPostCheck] = useState(false)
 
     useEffect(async () => {
-        await postService.checkIfPostBelongsToCurrentUser().then((response) => setPosts(response))
+        await postService.checkIfPostBelongsToCurrentUser().then((response) => setPostCheck(response))
     }, []);
 
     /*
@@ -46,7 +49,7 @@ const Post =  forwardRef (({name,description, message, photoUrl}, ref) => {
              <InputOption Icon = {ChatOutlinedIcon}  title ="Comment" color ="gray"/>
             
                 {/* need to make sure this only appears for own posts */}
-             <InputOption Icon = {EditIcon}  title ="Edit" color ="gray"/>
+             <InputOption Icon = { Edit }  title ="Edit" color ="gray"/>
          </div>   
         </div>
     )

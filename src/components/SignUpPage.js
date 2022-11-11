@@ -13,9 +13,10 @@ import Container from '@mui/material/Container';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 import authService from '../services/auth.service';
 import UploadImage from './UploadImage';
+import interestService from '../services/interest.service';
+import logo from '../assets/BeBright-Logo.png';
 
 function Copyright(props) {
   return (
@@ -53,7 +54,7 @@ export default function SignUp() {
           console.log(response);
           if (response) {
             
-            postService.addInterests(interestList).then((response) => {
+            interestService.addInterests(interestList).then((response) => {
               console.log(response);
             }).catch(err => console.log(err))
 

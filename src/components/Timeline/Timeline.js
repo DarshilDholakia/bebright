@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./Timeline.css";
-import InputOption from "./InputOption"
+import InputOptions from "./InputOptions.js"
 import Post from './Post'
 import CreateIcon from "@material-ui/icons/Create";
 import ImageIcon from '@material-ui/icons/Image';
@@ -38,7 +38,7 @@ export default function Timeline() {
                     </form>
                 </div>
                 <div className="timeline__inputOptions">
-                    <InputOption Icon={ImageIcon} title="Photo" color="#70B5F9" />
+                    <InputOptions Icon={ImageIcon} title="Photo" color="#70B5F9" />
                 </div>
             </div>
             

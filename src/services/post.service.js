@@ -15,14 +15,14 @@ const addPost = (description, imageURL) => {
         .catch((error) => console.error(error))
 };
 
-const deletePost = () => {
+const deletePost = (postId) => {
 
     return axios
         .delete(API_URL + `/posts/${postId}`, null, { headers: authHeader() })
         .then(() => console.log("Successfully deleted"));
 };
 
-const updatePost = (description, imageURL) => {
+const updatePost = (description, imageURL, postId) => {
 
     return axios
         .put(API_URL + `/posts/${postId}`, {
@@ -58,7 +58,7 @@ const getPostsByUser = () => {
         .catch((error) => console.error(error))
 };
 
-const getPostsByOffice = () => {
+const getPostsByOffice = (office) => {
 
     return axios
         .get(API_URL + `/posts/office/${office}`, null, { headers: authHeader() })
@@ -74,7 +74,7 @@ const getPostsByMultipleOffices = () => {
         .catch((error) => console.error(error))
 };
 
-const getPostsByOfficeAndTeam = () => {
+const getPostsByOfficeAndTeam = (office, team) => {
 
     return axios
         .get(API_URL + `/posts/${office}/${team}`, null, { headers: authHeader() })
@@ -82,7 +82,7 @@ const getPostsByOfficeAndTeam = () => {
         .catch((error) => console.error(error))
 };
 
-const addLike = () => {
+const addLike = (postId) => {
 
     return axios
         .put(API_URL + `/posts/addLike/${postId}`, null, { headers: authHeader() })
@@ -90,7 +90,7 @@ const addLike = () => {
         .catch((error) => console.error(error))
 };
 
-const removeLike = () => {
+const removeLike = (postId) => {
 
     return axios
         .put(API_URL + `/posts/removeLike/${postId}`, null, { headers: authHeader() })
@@ -98,7 +98,7 @@ const removeLike = () => {
         .catch((error) => console.error(error))
 };
 
-const checkIfPostBelongsToCurrentUser = () => {
+const checkIfPostBelongsToCurrentUser = (postId) => {
 
     return axios
         .get(API_URL + `/posts/check/${postId}`, null, { headers: authHeader() })
