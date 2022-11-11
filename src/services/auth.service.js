@@ -1,5 +1,6 @@
 import axios from "axios";
 import 'react-toastify/dist/ReactToastify.css';
+import authRefreshHeader from './auth-refresh-header'
 
 const API_URL = "http://localhost:8086";
 
@@ -16,6 +17,7 @@ const register = (username, email, password, profilePicURL, offices, teams, role
             roles,
         })
         .then((response) => {
+            localStorage.setItem("user_object", JSON.stringify(response.data));
             return response.data;
         })
 };
@@ -41,17 +43,33 @@ const login = (username, password) => {
         });
 };
 
+const refreshToken = (refreshToken) => {
+    return axios
+    .get(API_URL + "/token/refresh", { headers: authRefreshHeader() })
+    .then((response) => {
+        console.log(response.data)
+        if (response) {
+            localStorage.setItem("user", JSON.stringify(response.data))
+            return localStorage.getItem("user");
+        }
+    })
+    .catch((err) => {
+        logout();
+    })
+}
+
 const logout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("user", "user_object");
 };
 
 const getCurrentUser = () => {
-    return JSON.parse(localStorage.getItem("user"));
+    return JSON.parse(localStorage.getItem("user", "user_object"));
 };
 
 const authService = {
     register,
     login,
+    refreshToken,
     logout,
     getCurrentUser,
 };

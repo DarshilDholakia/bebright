@@ -1,6 +1,9 @@
 import React from "react";
 import ReactAvatarEditor from "react-avatar-editor";
 import { Button } from "@mui/material";
+import storage from "../firebaseConfig";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import LinearProgress from "@mui/material/LinearProgress";
 
 class UploadImage extends React.Component {
     constructor(props) {
@@ -8,39 +11,49 @@ class UploadImage extends React.Component {
         this.state = {
             image: "",
             allowZoomOut: false,
-            position: { x: 0.5, y: 0.5 },
-            scale: 1,
-            rotate: 0,
             borderRadius: 50,
             preview: null,
             width: 330,
             height: 330,
+            percent: 0,
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    // componentDidMount() {
-    //     this.handleSubmit = this.handleSubmit.bind(this);
-    // }
-
     handleNewImage = (e) => {
         this.setState({ image: e.target.files[0] });
     };
-    handleScale = (e) => {
-        const scale = parseFloat(e.target.value);
-        this.setState({ scale });
-    };
-    handlePositionChange = (position) => {
-        this.setState({ position });
-    };
-    setEditorRef = (editor) => (this.editor = editor);
 
     async handleSubmit(e) {
-        console.log(`editor: ${this.editor}`)
-        if (this.editor) {
-            // This returns a HTMLCanvasElement, it can be made into a data URL or a blob,
-            // drawn on another canvas, or added to the DOM.
-            const img = this.editor.getImageScaledToCanvas().toDataURL();
+        if (this.state.image) {
+            // console.log(img)
+            // console.log(this.state.image)
+            const storageRef = ref(storage, `/files/${this.state.image.name}`);
+            // console.log(storage)
+            const uploadTask = uploadBytesResumable(storageRef, this.state.image);
+            // console.log(uploadTask)
+
+            uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                    const percent = Math.round(
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    );
+         
+                    // update progress
+                    this.setState({ percent: percent });
+                },
+                (err) => console.log(err),
+                () => {
+                    // download url
+                    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                        console.log(url);
+                        this.props.handleNewUserImage(url);
+                    });
+                }
+            ); 
+        } else {
+            alert("Please choose a file first!")
         }
     }
 
@@ -49,13 +62,8 @@ class UploadImage extends React.Component {
             <div>
                 <div>
                     <ReactAvatarEditor
-                        ref={this.setEditorRef}
-                        scale={parseFloat(this.state.scale)}
                         width={this.state.width}
                         height={this.state.height}
-                        position={this.state.position}
-                        onPositionChange={this.handlePositionChange}
-                        rotate={parseFloat(this.state.rotate)}
                         borderRadius={this.state.width / (100 / this.state.borderRadius)}
                         image={this.state.image}
                         color={[255, 255, 255, 0.6]}
@@ -66,21 +74,12 @@ class UploadImage extends React.Component {
                 <label>
                     <input
                         name="upload-img-input"
+                        accept="image/*"
                         type="file"
                         onChange={this.handleNewImage}
                     />
                 </label>
                 <br />
-                <p>Zoom</p>
-                <input
-                    name="scale"
-                    type="range"
-                    onChange={this.handleScale}
-                    min={this.state.allowZoomOut ? "0.1" : "1"}
-                    max="2"
-                    step="0.01"
-                    defaultValue="1"
-                />
                 <div>
                     <Button
                         type="submit"
@@ -90,6 +89,8 @@ class UploadImage extends React.Component {
                     >
                         Confirm
                     </Button>
+                    {/* <p>{this.state.percent} % done</p> */}
+                    {(this.state.percent !== 0 && this.state.percent !== 100) && <LinearProgress variant="determinate" value={this.state.percent} />}
                 </div>
             </div>
         )
