@@ -8,61 +8,78 @@ import image3 from '../assets/image3.jpg'
 import InterestBox from './InterestBox';
 import interestService from '../services/interest.service';
 import userService from '../services/user.service';
+import ProfileNavbar from './ProfileNavbar';
 
 const ProfilePage = () => {
 
     const [interestList, setInterestList] = useState([]);
     const [userListOfListsByInterest, setuserListOfListsByInterest] = useState([])
+    const [user, setUser] = useState({
+        userId: '',
+        email: '',
+        offices: [],
+        password: '',
+        profilePicURL: '',
+        roles: [],
+        teams: [],
+        username: ''
+    })
 
     useEffect(() => {
+        const storedUser = JSON.parse(localStorage.getItem("user_object"))
+        setUser(storedUser)
+
         interestService.getUsersInterests()
         .then((response) => {
             // console.log(response)
             setInterestList(response)
         })
         // console.log(interestList)
-    }, [localStorage.getItem("user")])
+    }, [localStorage.getItem("user"), localStorage.getItem("user_object")])
 
-    useEffect(() => {
-        interestList.map((interest) => {
-            userService.getUsersByOfficeAndInterest(interest)
-            .then((response) => {
+    // useEffect(() => {
+    //     interestList.map((interest) => {
+    //         userService.getUsersByOfficeAndInterest(interest)
+    //         .then((response) => {
 
-                userListOfListsByInterest.push(response.data)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        })
-    }, [interestList])
+    //             userListOfListsByInterest.push(response.data)
+    //         })
+    //         .catch((err) => {
+    //             console.log(err)
+    //         })
+    //     })
+    // }, [interestList])
 
     return (
         <>
+        <ProfileNavbar user={user} />
             <div class="container">
                 <div class="interest-container">
                     {interestList.map((interest) => {
-                        userListOfListsByInterest.map((individualListOfUsersByInterest) => {
+                        // userListOfListsByInterest.map((individualListOfUsersByInterest) => {
                             return <InterestBox key={interest} 
-                            individualListOfUsersByInterest={individualListOfUsersByInterest} 
-                            interest={interest}/>
-                        })
+                            // individualListOfUsersByInterest={individualListOfUsersByInterest} 
+                            interest={interest} />
+                        // })
                     })}
                 </div>
                 <div class="sidebar-container">
                     <div className="sidebar__top">
-                        <Avatar src="" />
-                        <h2>displayName</h2>
+                        <Avatar src = { user.profilePicURL } />
                     </div>
 
                     <div className="sidebar__stats">
                         <div className="sidebar__stat">
-                            <p>Email</p>
+                            <p> { user.username } </p>
                         </div>
                         <div className="sidebar__stat">
-                            <p>Offices</p>
+                            <p> { user.email } </p>
                         </div>
                         <div className="sidebar__stat">
-                            <p>Teams</p>
+                            <p> { user.offices } </p>
+                        </div>
+                        <div className="sidebar__stat">
+                            <p> { user.teams } </p>
                         </div>
                     </div>
                 </div>

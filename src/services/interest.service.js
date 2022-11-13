@@ -25,10 +25,10 @@ const getUsersInterests = () => {
     })
 }
 
-const addInterests = (interesList) => {
+const addInterests = (interestList) => {
 
     return axios
-        .post(API_URL, interesList, { headers: authHeader() })
+        .post(API_URL, interestList, { headers: authHeader() })
         .then((response) => {
             return response;
         })

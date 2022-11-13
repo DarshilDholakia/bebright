@@ -61,8 +61,11 @@
 .sidebar-container { 
   grid-area: sidebar-container; 
   width: 50%;
-  margin-top: 25%;
+  margin-top: 20%;
   height: fit-content;
+  border: 1px solid lightslategray;
+  padding-top: 3%;
+  border-radius: 3%;
 }
 
 .carousel-container { 
@@ -139,7 +142,7 @@
 .sidebar__stats {
   padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid lightgray;
+  /* border: 1px solid lightgray; */
   background-color: white;
   border-radius: 10px;
   width: 100%;

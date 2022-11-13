@@ -52,6 +52,7 @@ class UploadImage extends React.Component {
                     });
                 }
             ); 
+            // this.setState({ image: "" })
         } else {
             alert("Please choose a file first!")
         }
