@@ -1,5 +1,5 @@
 import image1 from "../assets/stock.jpg"
-import { Avatar, FormHelperText, IconButton } from "@mui/material";
+import { Avatar, FormHelperText, Grid, IconButton } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import TimelineNavbar from "./TimelineNavbar";
 import postService from '../services/post.service'
@@ -11,6 +11,9 @@ import FlipMove from "react-flip-move";
 import Post from "./Post";
 import "../css/Timeline.css"
 import UploadImage from "./UploadImage";
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import userService from "../services/user.service";
 
 const Timeline = () => {
 
@@ -29,41 +32,67 @@ const Timeline = () => {
 
     const [input, setInput] = useState('');
     const [posts, setPosts] = useState([]);
-    const [offices, setOffices] = useState('');
-    const [teams, setTeams] = useState('');
+    const [offices, setOffices] = useState([]);
+    const [teams, setTeams] = useState([]);
 
     const [userImage, setUserImage] = useState('');
     const [description, setDescription] = useState('');
     const [error, setError] = useState('');
     const [imagePreview, setImagePreview] = useState("")
 
-    useEffect(() => {
-        postService.getPostsByMultipleOffices()
-            .then((response) => setPosts(response.data))
-    }, []);
+    // STATES FOR FILTER OPTIONS
+    const [officeValue, setOfficeValue] = useState(offices[0]);
+    const [inputOfficeValue, setInputOfficeValue] = useState('');
 
-    // useEffect(() => {
-    //     console.log(posts)
-    //     postService.getAllPosts()
-    //         .then((response) => {
-    //             setPosts(response.data)
-    //             console.log(posts)
-    //         })
-    // }, [])
+    const [teamValue, setTeamValue] = useState(teams[0]);
+    const [inputTeamValue, setInputTeamValue] = useState('');
 
-    // useEffect(() => {
-    //     postService.getPostsByOfficeAndTeam().then((response) => setPosts(response.data))
-    // }, [teams]);
-
-    // useEffect(() => {
-    //     postService.getPostsByOffice().then((response) => setPosts(response.data))
-    //     // add logic to clear the team filter if only office changed
-    // }, [offices]);
+    // STATE FOR TIME-BASED RENDERING OF CREATE POST COMPONENT
+    const [displayCreatePost, setDisplayCreatePost] = useState(false);
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem("user_object"))
         setUser(storedUser)
     }, [localStorage.getItem("user"), localStorage.getItem("user_object")])
+
+
+    useEffect(() => {
+        postService.getPostsByMultipleOffices()
+            .then((response) => setPosts(response.data))
+    }, []);
+
+    const handleOfficeFilterChange = () => {
+        postService.getPostsByOffice(officeValue)
+            .then((response) => setPosts(response.data))
+    }
+
+    // useEffect(() => {
+    //     postService.getPostsByOffice(officeValue).then((response) => setPosts(response.data))
+    //     // add logic to clear the team filter if only office changed
+    // }, [officeValue]);
+
+    const handleTeamFilterChange = () => {
+        postService.getPostsByOfficeAndTeam(inputOfficeValue, inputTeamValue)
+            .then((response) => setPosts(response.data))
+    }
+
+    // useEffect(() => {
+    //     postService.getPostsByOfficeAndTeam(officeValue, teamValue).then((response) => setPosts(response.data))
+    // }, [teamValue]);
+
+    useEffect(() => {
+        userService.getUsersOffices()
+            .then((response) => {
+                setOffices(response.data);
+            })
+    }, [])
+
+    useEffect(() => {
+        userService.getUsersTeams()
+            .then((response) => {
+                setTeams(response.data);
+            })
+    }, [])
 
     const sendPost = e => {
         e.preventDefault();
@@ -91,10 +120,78 @@ const Timeline = () => {
         setUserImage(imageDownloadUrl);
     }
 
+    var today = new Date();
+    var timeInHours = today.getHours();
+    useEffect(() => {
+        console.log(displayCreatePost)
+        console.log(timeInHours)
+        if (9 <= timeInHours.valueOf() < 12) {
+            console.log("entered if block")
+            setDisplayCreatePost(true);
+            console.log(displayCreatePost);
+        } else {
+            console.log("entered else block")
+            setDisplayCreatePost(false);
+            console.log(displayCreatePost)
+        }
+    }, [])
+
     return (
         <>
             <TimelineNavbar user={user} />
             <div className="timeline">
+
+                <Grid container spacing={33}>
+                    <Grid item xs={12} md={6}>
+                        <Autocomplete
+                            // disablePortal
+                            inputValue={inputOfficeValue}
+                            onInputChange={(event, newInputValue) => {
+                                setInputOfficeValue(newInputValue);
+                                console.log(typeof newInputValue)
+                                console.log(newInputValue)
+                                console.log(typeof inputOfficeValue)
+                                console.log(inputOfficeValue)
+                            }}
+                            value={officeValue || null}
+                            onChange={(event, newValue) => {
+                                setOfficeValue(newValue);
+                                console.log(typeof newValue)
+                                console.log(newValue)
+                                console.log(typeof officeValue)
+                                console.log(officeValue)
+                                handleOfficeFilterChange();
+                            }}
+                            id="offices"
+                            options={offices}
+                            sx={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="Office" />}
+                        />
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                        <Autocomplete
+                            // disablePortal
+                            inputValue={inputTeamValue}
+                            onInputChange={(event, newInputValue) => {
+                                setInputTeamValue(newInputValue);
+                            }}
+                            value={teamValue || null}
+                            onChange={(event, newValue) => {
+                                setTeamValue(newValue);
+                                if (!officeValue) {
+                                    handleTeamFilterChange();   
+                                }
+                            }}
+                            id="teams"
+                            options={teams}
+                            sx={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="Team" />}
+                        />
+                    </Grid>
+                </Grid>
+
+{ displayCreatePost ?
                 <div className="timeline__inputContainer">
                     <div className="timeline__input">
                         <CreateIcon />
@@ -126,7 +223,8 @@ const Timeline = () => {
                         </div>
                     </div>
 
-                </div>
+                </div> : <></>
+}
 
                 <hr />
 

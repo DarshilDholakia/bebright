@@ -14,9 +14,9 @@ const registerUser = (email, username, password, profilePicURL, offices, teams, 
             offices,
             teams,
             roles,
-        }, 
-        { headers: authHeader() })
-        .then((response) => {return response.data})
+        },
+            { headers: authHeader() })
+        .then((response) => { return response.data })
         .catch((error) => console.error(error))
 };
 
@@ -47,26 +47,34 @@ const registerUser = (email, username, password, profilePicURL, offices, teams, 
 const getUsersByOfficeAndInterest = (interestType) => {
 
     return axios
-        .get(API_URL + `/users/getUsersByOfficeAndInterest/${interestType}`, null, { headers: authHeader() })
-        .then((response) => {return response.data})
+        .get(API_URL + `/users/getUsersByOfficeAndInterest/${interestType}`, { headers: authHeader() })
+        .then((response) => { return response.data })
         .catch((error) => console.error(error))
 };
 
 const getUsersOffices = () => {
 
     return axios
-        .get(API_URL + "/users/getUsersOffices", null, { headers: authHeader() })
-        .then((response) => {return response.data})
+        .get(API_URL + "/users/getUsersOffices", { headers: authHeader() })
+        .then((response) => { return response })
         .catch((error) => console.error(error))
 };
 
 const getUsersTeams = () => {
 
     return axios
-        .get(API_URL + "/users/getUsersTeams", null, { headers: authHeader() })
-        .then((response) => {return response.data})
+        .get(API_URL + "/users/getUsersTeams", { headers: authHeader() })
+        .then((response) => { return response })
         .catch((error) => console.error(error))
 };
+
+const getUserByUsername = (username) => {
+
+    return axios
+        .get(API_URL + `/users/getUserByUsername/${username}`, { headers: authHeader() })
+        .then((response) => { return response })
+        .catch((error) => console.error(error))
+}
 
 const userService = {
     registerUser,
@@ -75,6 +83,7 @@ const userService = {
     getUsersByOfficeAndInterest,
     getUsersOffices,
     getUsersTeams,
+    getUserByUsername
 };
 
 export default userService;

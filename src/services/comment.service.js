@@ -15,14 +15,14 @@ const addComment = (postId, commentText) => {
         .catch((error) => console.error(error))
 };
 
-const deleteComment = () => {
+const deleteComment = (commentId) => {
 
     return axios
         .delete(API_URL + `/comments/${commentId}`, null, { headers: authHeader() })
         .then(() => console.log("Successfully deleted"));
 };
 
-const updateComment = (commentText) => {
+const updateComment = (commentText, commentId) => {
 
     return axios
         .put(API_URL + `/comments/${commentId}`, {

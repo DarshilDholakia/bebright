@@ -44,9 +44,9 @@ class UploadImage extends React.Component {
                     this.setState({ percent: percent });
                 },
                 (err) => console.log(err),
-                () => {
+                async () => {
                     // download url
-                    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                    await getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                         console.log(url);
                         this.props.handleNewUserImage(url);
                     });

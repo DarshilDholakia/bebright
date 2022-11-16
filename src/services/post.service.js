@@ -53,7 +53,7 @@ const getAllPosts = () => {
 const getPostsByUser = () => {
 
     return axios
-        .get(API_URL + "/posts", null, { headers: authHeader() })
+        .get(API_URL + "/posts", { headers: authHeader() })
         .then((response) => {return response.data})
         .catch((error) => console.error(error))
 };
@@ -61,7 +61,7 @@ const getPostsByUser = () => {
 const getPostsByOffice = (office) => {
 
     return axios
-        .get(API_URL + `/posts/office/${office}`, null, { headers: authHeader() })
+        .get(API_URL + `/posts/office/${office}`, { headers: authHeader() })
         .then((response) => {return response.data})
         .catch((error) => console.error(error))
 };
@@ -69,9 +69,7 @@ const getPostsByOffice = (office) => {
 const getPostsByMultipleOffices = () => {
     
     return axios
-        .get(API_URL + "/posts/offices",  
-        { headers: authHeader() }
-        )
+        .get(API_URL + "/posts/offices", { headers: authHeader() })
         .then((response) => {return response})
         .catch((error) => console.error(error))
 };
@@ -79,7 +77,7 @@ const getPostsByMultipleOffices = () => {
 const getPostsByOfficeAndTeam = (office, team) => {
 
     return axios
-        .get(API_URL + `/posts/${office}/${team}`, null, { headers: authHeader() })
+        .get(API_URL + `/posts/${office}/${team}`, { headers: authHeader() })
         .then((response) => {return response.data})
         .catch((error) => console.error(error))
 };
@@ -87,7 +85,7 @@ const getPostsByOfficeAndTeam = (office, team) => {
 const addLike = (postId) => {
 
     return axios
-        .put(API_URL + `/posts/addLike/${postId}`, null, { headers: authHeader() })
+        .put(API_URL + `/posts/addLike/${postId}`, { headers: authHeader() })
         .then((response) => {return response.data})
         .catch((error) => console.error(error))
 };

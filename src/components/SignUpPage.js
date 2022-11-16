@@ -17,7 +17,7 @@ import logo from "../assets/BeBright-Logo.png";
 import authService from "../services/auth.service";
 import UploadImage from "./UploadImage";
 import ReactAvatarEditor from "react-avatar-editor";
-import interestService from "../services/interest.service";
+import postService from "../services/interest.service";
 
 function Copyright(props) {
   return (
@@ -66,7 +66,7 @@ export default function SignUp() {
           .then((response) => {
             console.log(response);
             if (response) {
-              interestService
+              postService
                 .addInterests(interestList)
                 .then((response) => {
                   console.log(response);
