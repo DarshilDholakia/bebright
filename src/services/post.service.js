@@ -54,12 +54,11 @@ const getPostsByUser = () => {
 
     return axios
         .get(API_URL + "/posts", { headers: authHeader() })
-        .then((response) => {return response.data})
+        .then((response) => {return response})
         .catch((error) => console.error(error))
 };
 
 const getPostsByOffice = (office) => {
-
     return axios
         .get(API_URL + `/posts/office/${office}`, { headers: authHeader() })
         .then((response) => {return response.data})

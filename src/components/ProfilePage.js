@@ -1,4 +1,3 @@
-import { Avatar } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import '../css/ProfilePage.css';
 import Carousel from 'react-bootstrap/Carousel';
@@ -9,6 +8,14 @@ import InterestBox from './InterestBox';
 import interestService from '../services/interest.service';
 import userService from '../services/user.service';
 import ProfileNavbar from './ProfileNavbar';
+import postService from '../services/post.service';
+import {
+    Card,
+    CardContent,
+    CardMedia,
+    Typography,
+    Avatar
+} from "@material-ui/core";
 
 const ProfilePage = () => {
 
@@ -25,16 +32,26 @@ const ProfilePage = () => {
         username: ''
     })
 
+    const [posts, setPosts] = useState([])
+
     useEffect(() => {
-        const storedUser = JSON.parse(localStorage.getItem("user_object"))
-        setUser(storedUser)
+        postService.getPostsByUser()
+            .then((response) => {
+                setPosts(response);
+            })
+        console.log(posts)
 
         interestService.getUsersInterests()
-        .then((response) => {
-            // console.log(response)
-            setInterestList(response)
-        })
+            .then((response) => {
+                // console.log(response)
+                setInterestList(response)
+            })
         // console.log(interestList)
+    }, [])
+
+    useEffect(() => {
+        const storedUser = JSON.parse(localStorage.getItem("user_object"))
+        setUser(storedUser);
     }, [localStorage.getItem("user"), localStorage.getItem("user_object")])
 
     // useEffect(() => {
@@ -52,12 +69,12 @@ const ProfilePage = () => {
 
     return (
         <>
-        <ProfileNavbar user={user} />
+            <ProfileNavbar user={user} />
             <div class="container">
                 <div class="interest-container">
                     {interestList.map((interest) => {
                         // userListOfListsByInterest.map((individualListOfUsersByInterest) => {
-                            return <InterestBox key={interest} 
+                        return <InterestBox key={interest}
                             // individualListOfUsersByInterest={individualListOfUsersByInterest} 
                             interest={interest} />
                         // })
@@ -65,33 +82,52 @@ const ProfilePage = () => {
                 </div>
                 <div class="sidebar-container">
                     <div className="sidebar__top">
-                        <Avatar src = { user.profilePicURL } />
+                        <Avatar src={user.profilePicURL} />
                     </div>
 
                     <div className="sidebar__stats">
                         <div className="sidebar__stat">
-                            <p> { user.username } </p>
+                            <p> {user.username} </p>
                         </div>
                         <div className="sidebar__stat">
-                            <p> { user.email } </p>
+                            <p> {user.email} </p>
                         </div>
                         <div className="sidebar__stat">
-                            <p> { user.offices } </p>
+                            <p> {user.offices} </p>
                         </div>
                         <div className="sidebar__stat">
-                            <p> { user.teams } </p>
+                            <p> {user.teams} </p>
                         </div>
                     </div>
                 </div>
                 <div class="carousel-container">
                     <Carousel variant="dark" className='carousel'>
+
+                        {/* {posts.map(post => {
+                            <Carousel.Item>
+                                <Card>
+                                    <CardMedia
+                                        component="img"
+                                        height="200"
+                                        image={post.imageURL}
+                                        alt={post.description}
+                                    />
+                                    <CardContent>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {post.description}
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </Carousel.Item> */}
+                        {/* // })
+                        // } */}
+
                         <Carousel.Item>
                             <img
                                 className="carousel-img d-block w-100"
                                 src={image1}
                                 alt="First slide"
                             />
-
                         </Carousel.Item>
                         <Carousel.Item>
                             <img
@@ -107,6 +143,16 @@ const ProfilePage = () => {
                                 alt="Third slide"
                             />
                         </Carousel.Item>
+
+                        {/* {posts.map(post => {
+                            <Carousel.Item>
+                                <img
+                                    className="carousel-img d-block w-100"
+                                    src={post.imageURL}
+                                    alt="Third slide"
+                                />
+                            </Carousel.Item>
+                        })} */}
                     </Carousel>
                 </div>
             </div>

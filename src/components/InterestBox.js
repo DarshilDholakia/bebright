@@ -14,7 +14,13 @@ const InterestBox = ({ interest }) => {
         <>
             <Grid className="individual-interest-container">
                 <List>
-                    <ListItem>
+                    <ListItem sx={{
+                        border:'1px solid black',
+                        borderRadius:'10px',
+                        "&:hover": {
+                            transform: 'scale(1.05)',
+                          }
+                    }}>
                         <ListItemButton onClick={() => {
                             if (expand) {
                                 setExpand(false)

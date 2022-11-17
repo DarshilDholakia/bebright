@@ -47,8 +47,11 @@ const Timeline = () => {
     const [teamValue, setTeamValue] = useState(teams[0]);
     const [inputTeamValue, setInputTeamValue] = useState('');
 
-    // STATE FOR TIME-BASED RENDERING OF CREATE POST COMPONENT
+    // STATE FOR CONDITIONAL RENDERING OF CREATE POST COMPONENT
     const [displayCreatePost, setDisplayCreatePost] = useState(false);
+    const [displayCreatePostAfterPosting, setDisplayCreatePostAfterPosting] = useState(true);
+
+    // const [postersProfilePic, setPostersProfilePic] = useState('');
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem("user_object"))
@@ -57,13 +60,25 @@ const Timeline = () => {
 
 
     useEffect(() => {
-        postService.getPostsByMultipleOffices()
-            .then((response) => setPosts(response.data))
+        if (posts.length === 0) {
+            postService.getPostsByMultipleOffices()
+                .then((response) => setPosts(response.data))
+        }
     }, []);
 
-    const handleOfficeFilterChange = () => {
-        postService.getPostsByOffice(officeValue)
-            .then((response) => setPosts(response.data))
+    useEffect(() => {
+        if (offices.length === 0) {
+            userService.getUsersOffices()
+                .then((response) => {
+                    setOffices(response.data);
+                })
+        }
+    }, [])
+
+    const handleOfficeFilterChange = (value) => {
+        console.log('value!', value)
+        postService.getPostsByOffice(value)
+            .then((response) => setPosts(response))
     }
 
     // useEffect(() => {
@@ -80,12 +95,6 @@ const Timeline = () => {
     //     postService.getPostsByOfficeAndTeam(officeValue, teamValue).then((response) => setPosts(response.data))
     // }, [teamValue]);
 
-    useEffect(() => {
-        userService.getUsersOffices()
-            .then((response) => {
-                setOffices(response.data);
-            })
-    }, [])
 
     useEffect(() => {
         userService.getUsersTeams()
@@ -110,6 +119,7 @@ const Timeline = () => {
         postService.addPost(description, userImage)
         setDescription('')
         setUserImage('')
+        setDisplayCreatePostAfterPosting(false)
     };
 
     const handleNewImagePreview = (e) => {
@@ -122,17 +132,15 @@ const Timeline = () => {
 
     var today = new Date();
     var timeInHours = today.getHours();
+    // let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8, 0, 0);
+    // let endTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 19, 0, 0);
+
     useEffect(() => {
-        console.log(displayCreatePost)
-        console.log(timeInHours)
-        if (9 <= timeInHours.valueOf() < 12) {
-            console.log("entered if block")
+        if (8 < timeInHours && timeInHours < 19) {
             setDisplayCreatePost(true);
-            console.log(displayCreatePost);
-        } else {
-            console.log("entered else block")
+        }
+        else {
             setDisplayCreatePost(false);
-            console.log(displayCreatePost)
         }
     }, [])
 
@@ -148,19 +156,8 @@ const Timeline = () => {
                             inputValue={inputOfficeValue}
                             onInputChange={(event, newInputValue) => {
                                 setInputOfficeValue(newInputValue);
-                                console.log(typeof newInputValue)
-                                console.log(newInputValue)
-                                console.log(typeof inputOfficeValue)
-                                console.log(inputOfficeValue)
-                            }}
-                            value={officeValue || null}
-                            onChange={(event, newValue) => {
-                                setOfficeValue(newValue);
-                                console.log(typeof newValue)
-                                console.log(newValue)
-                                console.log(typeof officeValue)
-                                console.log(officeValue)
-                                handleOfficeFilterChange();
+                                console.log('input change running', event, newInputValue)
+                                handleOfficeFilterChange(newInputValue);
                             }}
                             id="offices"
                             options={offices}
@@ -180,7 +177,7 @@ const Timeline = () => {
                             onChange={(event, newValue) => {
                                 setTeamValue(newValue);
                                 if (!officeValue) {
-                                    handleTeamFilterChange();   
+                                    // handleTeamFilterChange();
                                 }
                             }}
                             id="teams"
@@ -191,16 +188,16 @@ const Timeline = () => {
                     </Grid>
                 </Grid>
 
-{ displayCreatePost ?
-                <div className="timeline__inputContainer">
-                    <div className="timeline__input">
-                        <CreateIcon />
-                        <form>
-                            <input value={description} onChange={e => setDescription(e.target.value)} type="text" placeholder="Start a post" />
-                            <button onClick={sendPost} type="submit">Send</button>
-                        </form>
-                        {/* <label> */}
-                        {/* <input
+                {displayCreatePost ?
+                    <div className="timeline__inputContainer">
+                        <div className="timeline__input">
+                            <CreateIcon />
+                            <form>
+                                <input value={description} onChange={e => setDescription(e.target.value)} type="text" placeholder="Start a post" />
+                                <button onClick={sendPost} type="submit">Send</button>
+                            </form>
+                            {/* <label> */}
+                            {/* <input
                                 ref={uploadImageRef}
                                 name="upload-img-input"
                                 accept="image/*"
@@ -208,23 +205,23 @@ const Timeline = () => {
                                 // style={{display: 'none'}}
                                 onChange={handleNewImagePreview}
                             /> */}
-                        {/* <IconButton onClick={() => {
+                            {/* <IconButton onClick={() => {
                                 console.log(uploadImageRef.current)
                                 // uploadImageRef && uploadImageRef.current.
                             }}>
                                 <Image />
                             </IconButton> */}
-                        {/* </label> */}
-                        <FormHelperText error>{error}</FormHelperText>
-                        <div className="timeline__inputOptions">
+                            {/* </label> */}
+                            <FormHelperText error>{error}</FormHelperText>
+                            <div className="timeline__inputOptions">
 
-                            {/* <InputOptions Icon={ImageIcon} title="Photo" color="#70B5F9" /> */}
-                            <UploadImage handleNewUserImage={handleNewUserImage} />
+                                {/* <InputOptions Icon={ImageIcon} title="Photo" color="#70B5F9" /> */}
+                                <UploadImage handleNewUserImage={handleNewUserImage} />
+                            </div>
                         </div>
-                    </div>
 
-                </div> : <></>
-}
+                    </div> : <></>
+                }
 
                 <hr />
 
@@ -232,10 +229,10 @@ const Timeline = () => {
                 {/* <FlipMove> */}
                 <div>
                     {posts.map((post) => (
-                        <Post
-                            key={post.postId}
-                            post={post}
-                            user={user}
+                        < Post
+                            key = { post.postId }
+                            post = { post }
+                            user = { user }
                         />
                     ))}
                 </div>

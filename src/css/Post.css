@@ -1,4 +1,4 @@
-.post {
+/* .post {
     background-color: white;
     padding: 15px;
     margin-bottom: 10px;
@@ -43,10 +43,18 @@
   .post__buttons {
     display: flex;
     justify-content: space-evenly;
-  }
+  } */
   
-  @media screen and (max-width: 750px) {
+  /* @media screen and (max-width: 750px) {
       .widgets {
           display: none;
       }
+  } */
+
+  .MuiCardHeader-title {
+    float: left;
+  }
+
+  .MuiCardHeader-subheader {
+    float: right;
   }

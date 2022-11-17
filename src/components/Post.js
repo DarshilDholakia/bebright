@@ -1,6 +1,6 @@
 import InputOption from "./InputOptions";
-import React from "react";
-// import "../css/Post.css"
+import React, { useEffect, useState } from "react";
+import "../css/Post.css"
 import {
     Avatar,
     Card,
@@ -11,6 +11,7 @@ import {
     Collapse,
     IconButton,
     Typography,
+    Box
 } from "@material-ui/core";
 import { styled } from "@mui/material/styles";
 // import ThumbUpIcon from '@material-ui/icons/ThumbUp';
@@ -19,11 +20,16 @@ import {
     CommentOutlined,
     FavoriteOutlined,
     ExpandMore as ExpandMoreIcon,
+    
 } from "@material-ui/icons";
 import InputOptions from "./InputOptions";
 import postService from "../services/post.service";
 import commentService from "../services/comment.service";
 import CreateIcon from '@mui/icons-material/Create';
+import userService from "../services/user.service";
+import SendIcon from '@mui/icons-material/Send';
+import FormControl from '@mui/material/FormControl';
+import OutlinedInput from '@mui/material/OutlinedInput';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -41,6 +47,10 @@ const Post = ({ post, user }) => {
 
     const [commentText, setCommentText] = React.useState('');
 
+    const [postersProfilePic, setPostersProfilePic] = useState('');
+
+    const [date, setDate] = useState(post.createdAt);
+
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -54,10 +64,21 @@ const Post = ({ post, user }) => {
 
     const submitComment = () => {
         commentService.addComment(post.postId, commentText)
-        .then((response) => {
-            return response.data;
-        })
+            .then((response) => {
+                return response.data;
+            })
     }
+
+    // useEffect(() => {
+    //     setDate(post.createdAt.replace('T', ' '));
+    // }, [post])
+
+    useEffect(() => {
+        userService.getUserByUsername(post.username)
+            .then((response) => {
+                setPostersProfilePic(response.data.profilePicURL);
+            })
+    }, [])
 
     // const [postCheck, setPostCheck] = useState(false)
 
@@ -72,11 +93,11 @@ const Post = ({ post, user }) => {
                     avatar={
                         <Avatar
                             aria-label="User Profile Picture"
-                            src={user.profilePicURL}
+                            src={postersProfilePic}
                         />
                     }
                     title={post.username}
-                    subheader={post.createdAt}
+                    subheader={`${date.substring(11, 16)} ${date.substring(8, 10)}-${date.substring(5, 7)}-${date.substring(0, 4)}`}
                 />
                 <CardMedia
                     component="img"
@@ -122,18 +143,25 @@ const Post = ({ post, user }) => {
                                             />
                                         }
                                         title={comment.username}
-                                        subheader={comment.createdAt}
+                                        subheader={`${comment.createdAt.substring(11, 16)} ${comment.createdAt.substring(8, 10)}-${comment.createdAt.substring(5, 7)}-${comment.createdAt.substring(0, 4)}`}
                                     />
                                     <Typography paragraph>{comment.commentText}</Typography>
+                                    <hr />
                                 </>
                             );
                         })}
                     </CardContent>
-                    <CreateIcon />
-                    <form>
-                        <input value={commentText} onChange={e => setCommentText(e.target.value)} type="text" placeholder="Write a comment" />
-                        <button onClick={submitComment} type="submit">Send</button>
-                    </form>
+                        <Box component="form" noValidate autoComplete="off">
+                            <FormControl sx={{ width: '25ch',
+                        mb: 4 }}>
+                                <OutlinedInput value={commentText} onChange={e => setCommentText(e.target.value)} type="text" placeholder="Please enter comment" />
+                            </FormControl>
+                            <IconButton aria-label="share"
+                                onClick={submitComment}
+                            >
+                                <SendIcon />
+                            </IconButton>
+                        </Box>
                 </Collapse>
             </Card>
         </div>
