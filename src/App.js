@@ -2,7 +2,7 @@ import './App.css';
 import './css/SignUpPage.css';
 import { Route, Link, Routes, Navigate } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
-import Timeline from './components/Timeline';
+import Timeline from './components/Timeline/Timeline';
 import ProfilePage from './components/ProfilePage';
 import LoginPage from './components/LoginPage';
 import SignUpPage from './components/SignUpPage';
