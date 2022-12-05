@@ -77,15 +77,15 @@ const getPostsByOfficeAndTeam = (office, team) => {
 
     return axios
         .get(API_URL + `/posts/${office}/${team}`, { headers: authHeader() })
-        .then((response) => {return response.data})
+        .then((response) => {return response})
         .catch((error) => console.error(error))
 };
 
 const addLike = (postId) => {
 
     return axios
-        .put(API_URL + `/posts/addLike/${postId}`, { headers: authHeader() })
-        .then((response) => {return response.data})
+        .put(API_URL + `/posts/addLike/${postId}`, null, { headers: authHeader() })
+        .then((response) => {return response})
         .catch((error) => console.error(error))
 };
 
@@ -105,6 +105,14 @@ const checkIfPostBelongsToCurrentUser = (postId) => {
         .catch((error) => console.error(error))
 };
 
+const checkIfCurrentUserHasPosted = () => {
+
+    return axios
+    .get(API_URL + `/posts/check`, { headers: authHeader() })
+    .then((response) => {return response})
+    .catch((error) => console.error(error))
+};
+
 const postService = {
     addPost,
     deletePost,
@@ -118,6 +126,7 @@ const postService = {
     addLike,
     removeLike,
     checkIfPostBelongsToCurrentUser,
+    checkIfCurrentUserHasPosted
 };
 
 export default postService;

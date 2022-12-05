@@ -41,15 +41,15 @@ const Timeline = () => {
     const [imagePreview, setImagePreview] = useState("")
 
     // STATES FOR FILTER OPTIONS
-    const [officeValue, setOfficeValue] = useState(offices[0]);
+    // const [officeValue, setOfficeValue] = useState(offices[0]);
     const [inputOfficeValue, setInputOfficeValue] = useState('');
 
-    const [teamValue, setTeamValue] = useState(teams[0]);
+    // const [teamValue, setTeamValue] = useState(teams[0]);
     const [inputTeamValue, setInputTeamValue] = useState('');
 
     // STATE FOR CONDITIONAL RENDERING OF CREATE POST COMPONENT
     const [displayCreatePost, setDisplayCreatePost] = useState(false);
-    const [displayCreatePostAfterPosting, setDisplayCreatePostAfterPosting] = useState(true);
+    const [currentUserHasPosted, setCurrentUserHasPosted] = useState(false);
 
     // const [postersProfilePic, setPostersProfilePic] = useState('');
 
@@ -86,8 +86,9 @@ const Timeline = () => {
     //     // add logic to clear the team filter if only office changed
     // }, [officeValue]);
 
-    const handleTeamFilterChange = () => {
-        postService.getPostsByOfficeAndTeam(inputOfficeValue, inputTeamValue)
+    const handleTeamFilterChange = (officeValue, teamValue) => {
+        console.log(`office value: ${officeValue} and team value: ${teamValue}`)
+        postService.getPostsByOfficeAndTeam(officeValue, teamValue)
             .then((response) => setPosts(response.data))
     }
 
@@ -119,7 +120,7 @@ const Timeline = () => {
         postService.addPost(description, userImage)
         setDescription('')
         setUserImage('')
-        setDisplayCreatePostAfterPosting(false)
+        // setDisplayCreatePostAfterPosting(false)
     };
 
     const handleNewImagePreview = (e) => {
@@ -136,6 +137,15 @@ const Timeline = () => {
     // let endTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 19, 0, 0);
 
     useEffect(() => {
+        postService.checkIfCurrentUserHasPosted()
+        .then((response) => {
+            if (!response.data) {
+                setCurrentUserHasPosted(false);
+            } else {
+                setCurrentUserHasPosted(true);   
+            }
+        })
+
         if (8 < timeInHours && timeInHours < 19) {
             setDisplayCreatePost(true);
         }
@@ -172,14 +182,18 @@ const Timeline = () => {
                             inputValue={inputTeamValue}
                             onInputChange={(event, newInputValue) => {
                                 setInputTeamValue(newInputValue);
-                            }}
-                            value={teamValue || null}
-                            onChange={(event, newValue) => {
-                                setTeamValue(newValue);
-                                if (!officeValue) {
-                                    // handleTeamFilterChange();
+                                console.log('input change running', event, newInputValue)
+                                if (inputOfficeValue) {
+                                    handleTeamFilterChange(inputOfficeValue, newInputValue);
                                 }
                             }}
+                            // value={teamValue || null}
+                            // onChange={(event, newValue) => {
+                            //     setTeamValue(newValue);
+                            //     if (!officeValue) {
+                            //         handleTeamFilterChange(inputOfficeValue, newValue);
+                            //     }
+                            // }}
                             id="teams"
                             options={teams}
                             sx={{ width: 300 }}
@@ -188,7 +202,7 @@ const Timeline = () => {
                     </Grid>
                 </Grid>
 
-                {displayCreatePost ?
+                {displayCreatePost && !currentUserHasPosted ?
                     <div className="timeline__inputContainer">
                         <div className="timeline__input">
                             <CreateIcon />

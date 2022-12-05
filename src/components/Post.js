@@ -20,7 +20,7 @@ import {
     CommentOutlined,
     FavoriteOutlined,
     ExpandMore as ExpandMoreIcon,
-    
+
 } from "@material-ui/icons";
 import InputOptions from "./InputOptions";
 import postService from "../services/post.service";
@@ -68,10 +68,6 @@ const Post = ({ post, user }) => {
                 return response.data;
             })
     }
-
-    // useEffect(() => {
-    //     setDate(post.createdAt.replace('T', ' '));
-    // }, [post])
 
     useEffect(() => {
         userService.getUserByUsername(post.username)
@@ -139,7 +135,7 @@ const Post = ({ post, user }) => {
                                         avatar={
                                             <Avatar
                                                 aria-label="User Profile Picture"
-                                                src={user.profilePicURL}
+                                                src={''}
                                             />
                                         }
                                         title={comment.username}
@@ -151,17 +147,19 @@ const Post = ({ post, user }) => {
                             );
                         })}
                     </CardContent>
-                        <Box component="form" noValidate autoComplete="off">
-                            <FormControl sx={{ width: '25ch',
-                        mb: 4 }}>
-                                <OutlinedInput value={commentText} onChange={e => setCommentText(e.target.value)} type="text" placeholder="Please enter comment" />
-                            </FormControl>
-                            <IconButton aria-label="share"
-                                onClick={submitComment}
-                            >
-                                <SendIcon />
-                            </IconButton>
-                        </Box>
+                    <Box component="form" noValidate autoComplete="off">
+                        <FormControl sx={{
+                            width: '25ch',
+                            mb: 4
+                        }}>
+                            <OutlinedInput value={commentText} onChange={e => setCommentText(e.target.value)} type="text" placeholder="Please enter comment" />
+                        </FormControl>
+                        <IconButton aria-label="share"
+                            onClick={submitComment}
+                        >
+                            <SendIcon />
+                        </IconButton>
+                    </Box>
                 </Collapse>
             </Card>
         </div>

@@ -93,10 +93,14 @@ const ProfilePage = () => {
                             <p> {user.email} </p>
                         </div>
                         <div className="sidebar__stat">
-                            <p> {user.offices} </p>
+                            <p> {user.offices.map(office => {
+                                return `${office} `
+                            })} </p>
                         </div>
                         <div className="sidebar__stat">
-                            <p> {user.teams} </p>
+                            <p> {user.teams.map(team => {
+                                return `${team} `
+                            })} </p>
                         </div>
                     </div>
                 </div>
