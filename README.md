@@ -22,11 +22,19 @@ BeBright is a social media web app designed to help bring the spark back to offi
 ## Project Description
 
 ### Brief
-{Insert hackathon brief}
+The aim for this hackathon ("HACKFORCHANGE") was to acquire new skills, get innovative and break down barriers.
+ 
+For this HACK, we were asked to reimagine the work-place as a completely inclusive environment, based on the following prompts:
+ 
+- How can organisations build thriving inclusive communities?
+- How can an organisation ensure products and services reach beyond their traditional customer segments?
+
 
 ### Tech Stack
 
-{Insert tech stack}
+Back-end: Java, SpringBoot (Spring Cloud, Spring Security), MongoDB, Docker, Consul, Zipkin, Firebase (for local cloud storage)
+
+Front-end: React, HTML, CSS, JavaScript
 
 
 
