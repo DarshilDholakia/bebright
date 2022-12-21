@@ -38,9 +38,32 @@ Front-end: React, HTML, CSS, JavaScript
 
 
 
-## Setup Instructions
+## Set-up Instructions
 
-    1. Add set-up instructions
+- Git clone our project.
+- We recommend using IntelliJ for running the back-end and VS Code for the front-end. Open them in their respective IDE.
+
+Back-end set-up:
+
+    1. Ensure that docker desktop is installed on your device and running.
+
+    2. Install the docker plugin for IntelliJ.
+
+    3. Ensure that all containers in the "docker-compose.yml" file are running (these should be mongo, mongo-express, consul and zipkin).
+
+    - To check these have run successfully, open up a terminal command window, go to the back-end directory and run the ‘docker compose ps’ command.
+
+    4. Run all 5 micro-service applications from IntelliJ, ensuring that you run ApiGWApplication first (followed by UserApplication, PostApplication, CommentApplication and InterestApplication in any order).
+
+    5. Once all 5 services are running, you can check consul on 'localhost:8500' to ensure they have started properly.
+
+Frontend notes:
+
+    1. Ensure you’re in the ‘bebright_FE’ directory in your VS Code terminal, then run the ‘npm install’ command to get node modules.
+
+    2. Run ‘npm install firebase’ in the same ‘bebright_FE’ directory.
+
+    3. Run 'npm start' to have the front-end visible in your browser on 'localhost:3000'.
 
 
 
